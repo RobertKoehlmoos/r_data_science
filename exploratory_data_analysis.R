@@ -82,3 +82,8 @@ flights %>%
 
 ggplot(data = smaller) + # pretty
   geom_hex(mapping = aes(x = carat, y = price))
+
+ggplot(diamonds, aes(carat, price)) +
+  geom_hex()
+ggsave("diamonds.pdf")
+

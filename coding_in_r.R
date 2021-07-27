@@ -1,5 +1,7 @@
 library(magrittr)
 library(lubridate)
+library(tidyverse)
+library(nycflights13)
 
 rnorm(100) |>
   matrix(ncol = 2) %T>%
@@ -47,3 +49,44 @@ cut(temps, c(-Inf, 0, 10, 20, 30, Inf), c("freezing", "cold", "cool", "warm", "h
 
 commas <- function(...) stringr::str_c(..., collapse = ", ")
 commas(letters, collapse = "-")
+
+# iteration ---------------------------------------------------------------
+
+means <- vector("double", length(mtcars))
+for (i in seq_along(mtcars)) {
+  means[i] <- mean(mtcars[[i]], na.rm = TRUE)
+}
+
+for (i in seq_along(flights)) {
+  print(typeof(flights[[i]]))
+}
+
+iris_unique_per_column <- vector("double", length(iris))
+names(iris_unique_per_column) <- names(iris)
+for (i in seq_along(iris)) {
+  iris_unique_per_column[i] <- n_distinct(iris[[i]])
+}
+
+show_mean <- function(df, digits = 2) {
+  # Get max length of all variable names in the dataset
+  maxstr <- max(str_length(names(df)))
+  for (nm in names(df)) {
+    if (is.numeric(df[[nm]])) {
+      cat(
+        str_c(str_pad(str_c(nm, ":"), maxstr + 1L, side = "right"),
+              format(mean(df[[nm]]), digits = digits, nsmall = digits),
+              sep = " "
+        ),
+        "\n"
+      )
+    }
+  }
+}
+show_mean(iris)
+
+# functional programming --------------------------------------------------
+
+map_dbl(mtcars, mean)
+map(flights, typeof)
+map(iris, n_distinct)
+map(c(-10, 0, 10, 100), ~rnorm(10, .))

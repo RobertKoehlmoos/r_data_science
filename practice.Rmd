@@ -1,0 +1,24 @@
+---
+title: "practice"
+author: "Me!"
+date: "8/3/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(ggplot2)
+library(dplyr)
+
+smaller <- diamonds |>
+  filter(carat <= 2.5)
+```
+
+## R markdown practice
+
+We have data about `r nrow(diamonds)` diamonds. Only `r nrow(diamonds) - nrow(smaller)` are larger than 2.5 carats. The distribution of the remainder is shown below:
+
+```{r, echo = FALSE}
+smaller |>
+  ggplot(aes(carat)) +
+  geom_freqpoly(binwidth = 0.01)
+```

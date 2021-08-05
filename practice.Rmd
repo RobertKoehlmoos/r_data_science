@@ -22,3 +22,7 @@ smaller |>
   ggplot(aes(carat)) +
   geom_freqpoly(binwidth = 0.01)
 ```
+```{r}
+
+```
+
